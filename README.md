@@ -1,7 +1,5 @@
 ## Welcome to my GitHub Profile 👋
 
-<!--
-**matv3ykaa/matv3ykaa** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
 ### 👷 Check out what I'm currently working on
 
