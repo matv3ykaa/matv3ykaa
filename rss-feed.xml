@@ -7457,43 +7457,115 @@ with your workflow without forcing you into somebody else&amp;rsquo;s idea of an
 &lt;h2 id="walkthrough-video"&gt;Walkthrough Video&lt;/h2&gt;
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"&gt;
 &lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/MFbXFG2xDJI?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"&gt;&lt;/iframe&gt;
-&lt;/div&gt;</description></item><item><title>How I Setup My Website</title><link>https://christitus.com/how-i-setup-my-website/</link><pubDate>Fri, 07 Oct 2022 00:00:00 +0000</pubDate><author>Chris Titus</author><guid>https://christitus.com/how-i-setup-my-website/</guid><description>&lt;p&gt;This shows you have I automate my workflows and setup my website for maximum productivity and search&lt;/p&gt;
-&lt;p&gt;The best part is this is FREE and will produce a website faster than anything on the web. Netlify, my host, didn&amp;rsquo;t charge anything until I was breaking 100GB of bandwidth and 100,000 active users PER MONTH! Now with double those numbers I pay only $19 a month and have 1 TB (Terabyte) of data per month.&lt;/p&gt;
-&lt;h2 id="the-workflow-and-overview"&gt;The Workflow and Overview&lt;/h2&gt;
-&lt;p&gt;Typically before I start recording any video, I write an outline and publish it on my website. It&amp;rsquo;s almost like a video script, but also a copy paste guide for either a viewer or just someone searching google.&lt;/p&gt;
-&lt;p&gt;This is done by using a static site generator. There are bunch on the market, but the one that suited my needs the best is &lt;a href="https://gohugo.io"&gt;Hugo&lt;/a&gt;. It has a bunch of themes ready to use out of the box @ &lt;a href="https://themes.gohugo.io/"&gt;https://themes.gohugo.io/&lt;/a&gt; and is extremely modular.&lt;/p&gt;
-&lt;p&gt;Then there are the annoyances of other website platforms like WordPress. You need to go on the web and use some terrible web based editor that just is slow and takes a long time. Hugo fixes this by using both GitHub and Netlify for deployment. Netlify will &amp;ldquo;host, build, and distribute&amp;rdquo; the content automatically and GitHub will be where you publish when it&amp;rsquo;s ready for the publish stage that Netlify controls.&lt;/p&gt;
-&lt;p&gt;What this looks like in practice is I issue a &lt;code&gt;hugo new posts/new-post.md&lt;/code&gt;, edit it with &lt;code&gt;vim posts/new-post.md&lt;/code&gt;, and post it with git commit and push. This allows me to create a page in seconds if I wanted.&lt;/p&gt;
-&lt;h2 id="the-setup"&gt;The Setup&lt;/h2&gt;
-&lt;p&gt;Install Hugo (I recommend &lt;a href="https://christitus.com/nix-package-manager"&gt;NIX Package Manager&lt;/a&gt;)&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;nix-env -iA nixpkgs.hugo
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Do a quick setup that creates the &lt;code&gt;website&lt;/code&gt; folder and the needed HUGO framework files with:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;hugo new site website
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then we will initialize it with a HUGO theme like so:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;cd website
+&lt;/div&gt;</description></item><item><title>How I Set Up My Website with Hugo</title><link>https://christitus.com/how-i-setup-my-website/</link><pubDate>Fri, 07 Oct 2022 00:00:00 +0000</pubDate><author>Chris Titus</author><guid>https://christitus.com/how-i-setup-my-website/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Updated August 12, 2026:&lt;/strong&gt; This guide now reflects the current Hugo workflow and this site&amp;rsquo;s move from Netlify to Cloudflare Pages. The original video at the end shows the older 2022 setup, so use the commands in this article as the current reference.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;My website workflow is intentionally simple: write articles in Markdown, preview them locally with Hugo, store the source in GitHub, and let Cloudflare Pages build and publish the site.&lt;/p&gt;
+&lt;p&gt;Hugo is a static site generator. It converts content, templates, and assets into ordinary HTML, CSS, and JavaScript. There is no WordPress database or web editor to maintain, and the generated site can be served quickly from a content delivery network.&lt;/p&gt;
+&lt;h2 id="how-the-workflow-works"&gt;How the Workflow Works&lt;/h2&gt;
+&lt;p&gt;The publishing path looks like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Markdown and templates -&amp;gt; Hugo -&amp;gt; GitHub -&amp;gt; Cloudflare Pages -&amp;gt; Website
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I normally outline an article before recording its companion video. That outline becomes both a readable guide and a reference for viewers. Because the source is Markdown, I can work in any editor and keep every revision in Git.&lt;/p&gt;
+&lt;p&gt;GitHub stores the source and its history. Cloudflare Pages watches the repository, runs Hugo after each production update, and publishes Hugo&amp;rsquo;s generated &lt;code&gt;public&lt;/code&gt; directory. A local preview catches most content and layout problems before anything is pushed.&lt;/p&gt;
+&lt;h2 id="install-hugo-and-git"&gt;Install Hugo and Git&lt;/h2&gt;
+&lt;p&gt;Install &lt;a href="https://gohugo.io/installation/"&gt;Hugo Extended&lt;/a&gt; and &lt;a href="https://git-scm.com/downloads/"&gt;Git&lt;/a&gt; for your operating system. The Extended edition is important when a site processes SCSS or uses other Extended features; this website compiles SCSS through Hugo Pipes.&lt;/p&gt;
+&lt;p&gt;Verify both tools before creating a project:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;hugo version
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git --version
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This site was tested with Hugo Extended 0.162.1 when this article was updated. For a new project, use a current Hugo release and keep the local and deployment versions aligned.&lt;/p&gt;
+&lt;h2 id="create-a-new-hugo-project"&gt;Create a New Hugo Project&lt;/h2&gt;
+&lt;p&gt;The current Hugo quick start uses &lt;code&gt;hugo new project&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;hugo new project website
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; website
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git init
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git submodule add https://github.com/zzossig/hugo-theme-zzo.git themes/zzo
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I absolutely love the ZZO theme as a beginner. It has some of the best instructions and documentation you will find! &lt;a href="https://zzo-docs.vercel.app/zzo/gettingstarted/installation/"&gt;https://zzo-docs.vercel.app/zzo/gettingstarted/installation/&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id="usage-and-first-steps"&gt;Usage and First Steps&lt;/h2&gt;
-&lt;p&gt;The first thing you want to do is look over the sample post in &lt;code&gt;/themes&lt;/code&gt; under &lt;code&gt;/themes/examplesite&lt;/code&gt;. Under here you will see the structure that HUGO uses and how most of the content ends up in the &lt;code&gt;content&lt;/code&gt; directory off of root.&lt;/p&gt;
-&lt;p&gt;The second thing to note is the &lt;code&gt;/content/posts/&lt;/code&gt; and seeing the examples here. This will show you the sample markdown file and how it&amp;rsquo;s laid out. Change these and make your first post. Once you figure out a good structure for your posts, you can then edit the default template.&lt;/p&gt;
-&lt;p&gt;For previewing the changes you can open up a new terminal and just type &lt;code&gt;hugo server&lt;/code&gt; from the root &lt;code&gt;website&lt;/code&gt; directory.&lt;/p&gt;
-&lt;p&gt;Now I have three different windows that I&amp;rsquo;m using for the bulk of my workflow:&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Hugo creates the standard project directories and a &lt;code&gt;hugo.toml&lt;/code&gt; configuration file. Older projects may use &lt;code&gt;config.toml&lt;/code&gt;, &lt;code&gt;hugo.yaml&lt;/code&gt;, or another supported configuration filename; this website still uses &lt;code&gt;config.toml&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;A new Hugo project needs templates before it can render useful pages. The easiest starting point is a maintained theme. For example, the theme used in the &lt;a href="https://gohugo.io/getting-started/quick-start/"&gt;official Hugo quick start&lt;/a&gt; can be added as a Git submodule:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git submodule add https://github.com/gohugo-ananke/ananke themes/ananke
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then configure the project in &lt;code&gt;hugo.toml&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-toml" data-lang="toml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;baseURL&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;https://example.com/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;locale&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;en-US&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;title&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;My Website&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;theme&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;ananke&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Replace the example domain and title with your own values. Keeping the trailing slash on &lt;code&gt;baseURL&lt;/code&gt; avoids surprises when Hugo creates absolute URLs.&lt;/p&gt;
+&lt;p&gt;This website no longer uses the Zzo theme mentioned in the original 2022 guide. Its templates are maintained directly under &lt;code&gt;layouts/&lt;/code&gt;, with styles and scripts under &lt;code&gt;assets/&lt;/code&gt;. Starting with a theme is still the fastest way to learn Hugo, but moving to local templates later gives complete control without editing third-party theme files.&lt;/p&gt;
+&lt;h2 id="create-and-preview-a-post"&gt;Create and Preview a Post&lt;/h2&gt;
+&lt;p&gt;Create a post from the project root:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;hugo new content content/posts/my-first-post.md
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Hugo uses &lt;code&gt;archetypes/default.md&lt;/code&gt; as the starting template. Edit the new file under &lt;code&gt;content/posts/&lt;/code&gt;, then run the development server with drafts enabled:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;hugo server --buildDrafts
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Open the address Hugo prints, normally &lt;code&gt;http://localhost:1313/&lt;/code&gt;. Hugo automatically rebuilds the site and refreshes the browser when a source file changes.&lt;/p&gt;
+&lt;p&gt;My usual workspace has only three parts:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Chrome Window with &lt;a href="https://localhost:1313"&gt;https://localhost:1313&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;IDE for editing my markdown files (vs code, vim, etc.)&lt;/li&gt;
-&lt;li&gt;Extra terminal window running &lt;code&gt;hugo server&lt;/code&gt; for real time updates for the chrome window&lt;/li&gt;
+&lt;li&gt;A browser showing the local preview&lt;/li&gt;
+&lt;li&gt;An editor for Markdown, templates, and styles&lt;/li&gt;
+&lt;li&gt;A terminal running the Hugo development server&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;em&gt;Note: You can use terminal inside vs code and with the auto save feature you can see the code get updated on the webpage for every change you make!&lt;/em&gt;&lt;/p&gt;
-&lt;h2 id="your-first-modifications"&gt;Your First Modifications&lt;/h2&gt;
-&lt;p&gt;Remember the big thing with HUGO is everything is modular and everything can be changed, because at the end it is simply outputting a static html file.&lt;/p&gt;
-&lt;p&gt;Once you figure out how you want your posts structured, change the &lt;code&gt;/archtypes/default.md&lt;/code&gt;. This template is what each new post will use. This is where you really increase your efficiency as we often find ourselves writing the same few things on each new post we make.&lt;/p&gt;
-&lt;p&gt;The next modification will probably comes from adding widgets or sidebar components. Instead of directly modifying the &lt;code&gt;/theme/zzo&lt;/code&gt; files you can actually look through the partials directory and create your own &lt;code&gt;/layouts/partials&lt;/code&gt; in your root that will take precedence over the ones in the theme directory. More in-depth explanation from the official site &lt;a href="https://gohugo.io/functions/partials/include/"&gt;https://gohugo.io/functions/partials/include/&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id="complex-theme-modifications"&gt;Complex Theme Modifications&lt;/h2&gt;
-&lt;p&gt;In my past Hugo Guide I went into some pretty big theme modifications (adding search, tags, etc.) Read more about that @ &lt;a href="https://christitus.com/hugo-guide/"&gt;https://christitus.com/hugo-guide/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Also if you see something you want to copy from my website, everything is on my public GitHub @ &lt;a href="https://github.com/christitustech/website"&gt;https://github.com/christitustech/website&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Adding comments can be done in a multitude of ways, but my absolute favorite instead of using Disqus or commento.io is simply using GitHub to host the comments directly on your website repository! There is an amazing &amp;ldquo;plugin&amp;rdquo; that you can add called &lt;a href="https://github.com/utterance/utterances"&gt;https://github.com/utterance/utterances&lt;/a&gt; which does all the spam filtering and integrates comments BETTER!&lt;/p&gt;
-&lt;h2 id="walkthrough-video"&gt;Walkthrough Video&lt;/h2&gt;
+&lt;p&gt;When the article is ready, set &lt;code&gt;draft: false&lt;/code&gt; in its front matter. A normal production build excludes content marked as a draft.&lt;/p&gt;
+&lt;h2 id="use-front-matter-consistently"&gt;Use Front Matter Consistently&lt;/h2&gt;
+&lt;p&gt;Front matter controls how Hugo publishes a page. This site&amp;rsquo;s post archetype includes a title, date, explicit URL, featured image, categories, tags, and draft status. A simplified post looks like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nn"&gt;---&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;title&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;My First Post&amp;#34;&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;date&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ld"&gt;2026-08-12&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;url&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;/my-first-post/&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;images/2026-thumbs/my-first-post.webp&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;categories&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;Linux&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;tags&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;Hugo&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;draft&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nn"&gt;---&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Use &lt;code&gt;archetypes/default.md&lt;/code&gt; to define fields that every new post should contain. An archetype eliminates repetitive setup and reduces front matter mistakes. Preserve published URLs when editing old articles so existing links and search results continue to work.&lt;/p&gt;
+&lt;p&gt;Files under &lt;code&gt;static/&lt;/code&gt; are copied directly to the generated site. For example, &lt;code&gt;static/images/photo.webp&lt;/code&gt; is available at &lt;code&gt;/images/photo.webp&lt;/code&gt;. Files under &lt;code&gt;assets/&lt;/code&gt; are processed through Hugo Pipes and are appropriate for SCSS, bundled JavaScript, and other build-time resources.&lt;/p&gt;
+&lt;h2 id="customize-layouts-safely"&gt;Customize Layouts Safely&lt;/h2&gt;
+&lt;p&gt;Avoid making one-off changes inside a downloaded theme. To override a theme template, place your version at the matching path under the project&amp;rsquo;s &lt;code&gt;layouts/&lt;/code&gt; directory. Project templates take precedence over theme templates and remain separate from theme updates.&lt;/p&gt;
+&lt;p&gt;Partials are useful for shared elements such as the header, footer, metadata, and sidebar. Hugo&amp;rsquo;s &lt;a href="https://gohugo.io/templates/"&gt;template documentation&lt;/a&gt; explains the current lookup rules and template system.&lt;/p&gt;
+&lt;p&gt;The public source for this site is available in the &lt;a href="https://github.com/ChrisTitusTech/website"&gt;ChrisTitusTech website repository&lt;/a&gt;. Its current structure is a useful example of a Hugo site that has grown beyond an external theme:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;content/&lt;/code&gt; contains Markdown pages and posts.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;layouts/&lt;/code&gt; contains the complete template layer.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;assets/scss/&lt;/code&gt; and &lt;code&gt;assets/js/&lt;/code&gt; contain processed frontend assets.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;static/&lt;/code&gt; contains files copied directly to the published site.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;config.toml&lt;/code&gt; contains site settings, menus, and parameters.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For more background on larger customizations, see my earlier &lt;a href="https://christitus.com/hugo-guide/"&gt;Hugo guide&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="validate-the-production-build"&gt;Validate the Production Build&lt;/h2&gt;
+&lt;p&gt;Before publishing, run the same kind of build used for production:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;hugo --gc --minify
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Hugo writes the generated site to &lt;code&gt;public/&lt;/code&gt; by default. Treat that directory as build output: edit the Markdown, layouts, configuration, or assets instead of editing generated HTML directly.&lt;/p&gt;
+&lt;p&gt;After a successful build, commit and push the source changes:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git add .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git commit -m &lt;span class="s2"&gt;&amp;#34;Publish my first post&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git push
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="deploy-with-cloudflare-pages"&gt;Deploy with Cloudflare Pages&lt;/h2&gt;
+&lt;p&gt;Connect the GitHub repository from &lt;strong&gt;Workers &amp;amp; Pages&lt;/strong&gt; in the Cloudflare dashboard, then configure the Hugo build:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Setting&lt;/th&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Production branch&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;main&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Build command&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;hugo --gc --minify&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Build output directory&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;public&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Set &lt;code&gt;HUGO_VERSION&lt;/code&gt; in the Cloudflare Pages environment to the version you have tested locally. If preview and production deployments both need that version, configure it in both environments. Cloudflare&amp;rsquo;s current &lt;a href="https://developers.cloudflare.com/pages/framework-guides/deploy-a-hugo-site/"&gt;Hugo deployment guide&lt;/a&gt; covers the Git integration and build settings.&lt;/p&gt;
+&lt;p&gt;For a permanent custom domain, keep the final HTTPS address in Hugo&amp;rsquo;s &lt;code&gt;baseURL&lt;/code&gt;. After each push, confirm that the Cloudflare build succeeds and check the deployed page. Git accepting a commit does not prove that Hugo built or that the live site looks correct.&lt;/p&gt;
+&lt;h2 id="comments"&gt;Comments&lt;/h2&gt;
+&lt;p&gt;This site uses &lt;a href="https://utteranc.es/"&gt;Utterances&lt;/a&gt; for comments. It stores each discussion in a GitHub issue instead of requiring a separate comment database. The integration can be added to a Hugo partial or single-page template and configured for the repository that will hold the discussions.&lt;/p&gt;
+&lt;h2 id="original-walkthrough-video"&gt;Original Walkthrough Video&lt;/h2&gt;
+&lt;p&gt;The video below is preserved for historical context. It demonstrates the original 2022 Netlify and Zzo workflow; the written guide above is the updated setup.&lt;/p&gt;
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"&gt;
 &lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/xMv10E561WQ?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"&gt;&lt;/iframe&gt;
 &lt;/div&gt;</description></item><item><title>NTLite Guide</title><link>https://christitus.com/ntlite-guide/</link><pubDate>Wed, 05 Oct 2022 00:00:00 +0000</pubDate><author>Chris Titus</author><guid>https://christitus.com/ntlite-guide/</guid><description>&lt;p&gt;This Guide shows you the easiest way to configure Windows and make an ISO with NTLite.&lt;/p&gt;
