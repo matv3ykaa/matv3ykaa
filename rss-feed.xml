@@ -1,4 +1,260 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Chris Titus Tech</title><description>Having Fun with Technology</description><link>https://christitus.com/</link><language>en-US</language><item><title>I Rebuilt My Website in Astro - Was It Worth It?</title><link>https://christitus.com/i-rebuilt-my-website-in-astro-was-it-worth-it/</link><guid isPermaLink="true">https://christitus.com/i-rebuilt-my-website-in-astro-was-it-worth-it/</guid><description>&lt;p&gt;Four years ago, I built this website with Hugo. In August 2026, I deleted the
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Chris Titus Tech</title><description>Having Fun with Technology</description><link>https://christitus.com/</link><language>en-US</language><item><title>GitHub Copilot App Is Actually Good... Just Not with Copilot</title><link>https://christitus.com/github-copilot-on-linux/</link><guid isPermaLink="true">https://christitus.com/github-copilot-on-linux/</guid><description>&lt;p&gt;GitHub Copilot is a terrible name for this app. Microsoft has put the Copilot name on everything, but this is much more useful as a &lt;strong&gt;GitHub desktop dashboard&lt;/strong&gt; for Linux, macOS, and Windows.&lt;/p&gt;
+&lt;p&gt;I use it to organize repositories, issues, pull requests, and notifications. I do not use the built-in Copilot subscription. Instead, I connect the app to my existing Codex subscription through &lt;a href=&quot;https://github.com/router-for-me/CLIProxyAPI&quot;&gt;CLIProxyAPI&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;The GitHub App I Actually Wanted&lt;/h2&gt;
+&lt;p&gt;The app&apos;s &lt;strong&gt;My work&lt;/strong&gt; view puts review requests, issues, pull requests, and repository activity in one place. That matters when your notification feed is constantly moving and older projects are easy to forget.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/2026/github/intro-myword.webp&quot; alt=&quot;GitHub Copilot app My work view with issues and pull requests from connected repositories&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;My normal workflow looks like this:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Open &lt;strong&gt;My work&lt;/strong&gt; and scan new activity across every connected repository.&lt;/li&gt;
+&lt;li&gt;Open an issue or pull request in the app to get the context.&lt;/li&gt;
+&lt;li&gt;Ask for a plan or initial scaffolding when an issue needs code.&lt;/li&gt;
+&lt;li&gt;Continue the detailed implementation in my preferred editor or terminal.&lt;/li&gt;
+&lt;li&gt;Review, close, or archive the item when the work is done.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;I do not want the app to replace my IDE. It is the front door to the work: a fast way to decide what needs attention before I move into Codex, HerdR, or another development environment.&lt;/p&gt;
+&lt;h2&gt;Prioritize Issues Across Every Repository&lt;/h2&gt;
+&lt;p&gt;The biggest win is triage. GitHub&apos;s normal notification stream tells you what happened, but it does not necessarily tell you what matters most.&lt;/p&gt;
+&lt;p&gt;I can ask the app to prioritize my outstanding issues and pull requests. If several users report the same WinUtil problem, that cluster should rank above a one-off request with little impact. A useful prompt is:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;Prioritize my outstanding issues and pull requests across all connected
+repositories. Group duplicate or closely related reports, rank them by user
+impact and urgency, and explain why each item deserves its position.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The result is a practical queue instead of an endless inbox.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/2026/github/top20.webp&quot; alt=&quot;GitHub Copilot ranking the top 20 outstanding issues across many repositories&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;AI can miss context, so I still review the source issue before acting. The ranking is a starting point, not an automatic decision-maker.&lt;/p&gt;
+&lt;h2&gt;Add and Synchronize Existing Repositories&lt;/h2&gt;
+&lt;p&gt;Adding a large collection of repositories one at a time is tedious. I pointed the app at my working directory and asked it to identify local GitHub projects that were not already configured.&lt;/p&gt;
+&lt;p&gt;Once the repositories are available, the app can help spot stale clones, dirty worktrees, and branches that need attention. That is useful when I commit on one machine and later discover that another workstation has not pulled the change.&lt;/p&gt;
+&lt;p&gt;Never ask an agent to discard or overwrite local changes automatically. Have it report the repository state first, then review each proposed pull, commit, or cleanup action.&lt;/p&gt;
+&lt;h2&gt;Replace the Copilot Provider with Codex&lt;/h2&gt;
+&lt;p&gt;The app supports additional model providers. I use that capability to avoid buying another AI subscription for another application.&lt;/p&gt;
+&lt;p&gt;The path is:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;GitHub Copilot app -&amp;gt; CLIProxyAPI on localhost -&amp;gt; OpenAI Codex
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;CLIProxyAPI is a third-party open-source project that signs in to supported AI services and exposes an OpenAI-compatible local endpoint. If your ChatGPT plan includes Codex, it can route the app through that existing access instead of a separately billed OpenAI Platform API key.&lt;/p&gt;
+&lt;p&gt;This is not an official GitHub or OpenAI integration. Review the project before installing it, keep it updated, and expect your normal subscription limits and terms to apply.&lt;/p&gt;
+&lt;h2&gt;Install CLIProxyAPI on Linux&lt;/h2&gt;
+&lt;p&gt;The CLIProxyAPI documentation recommends a community-maintained Linux installer. Download it first so you can inspect it before running it:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;installer=&quot;$(mktemp)&quot;
+curl -fsSL \
+  https://raw.githubusercontent.com/router-for-me/cliproxyapi-installer/refs/heads/master/cliproxyapi-installer \
+  -o &quot;$installer&quot; || { rm -f &quot;$installer&quot;; exit 1; }
+
+less &quot;$installer&quot;
+bash &quot;$installer&quot;
+rm -f &quot;$installer&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The installer normally places the binary and configuration under &lt;code&gt;~/cliproxyapi/&lt;/code&gt;. It also creates a &lt;code&gt;cliproxyapi.service&lt;/code&gt; user unit and generates a local API key.&lt;/p&gt;
+&lt;p&gt;Open &lt;code&gt;~/cliproxyapi/config.yaml&lt;/code&gt; and verify that the service is bound only to localhost:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-yaml&quot;&gt;host: &quot;127.0.0.1&quot;
+port: 8317
+auth-dir: &quot;~/.cli-proxy-api&quot;
+
+api-keys:
+  - &quot;sk-replace-this-with-a-long-random-local-key&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Edit the existing values instead of replacing the entire configuration. If the installer already generated a strong local key, keep it. Protect the configuration with:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;install -d -m 700 &quot;$HOME/.cli-proxy-api&quot;
+chmod 700 &quot;$HOME/cliproxyapi&quot; &quot;$HOME/.cli-proxy-api&quot;
+chmod 600 &quot;$HOME/cliproxyapi/config.yaml&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Sign In to Codex and Start the Service&lt;/h2&gt;
+&lt;p&gt;Run the one-time OAuth login as your normal desktop user:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;cd &quot;$HOME/cliproxyapi&quot;
+./cli-proxy-api --codex-login
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For a headless machine, use the device-code flow instead of the browser callback:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;./cli-proxy-api --codex-device-login
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After signing in, restrict the saved OAuth credentials to your user:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;find &quot;$HOME/.cli-proxy-api&quot; -type d -exec chmod 700 {} +
+find &quot;$HOME/.cli-proxy-api&quot; -type f -exec chmod 600 {} +
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then enable the user service:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;systemctl --user daemon-reload
+systemctl --user enable --now cliproxyapi.service
+systemctl --user status cliproxyapi.service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A desktop user service starts when you log in, which is normally all this setup needs.&lt;/p&gt;
+&lt;h2&gt;Test the Local Endpoint&lt;/h2&gt;
+&lt;p&gt;Before changing the GitHub app, confirm that the proxy is running and that its local key works:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;read -rsp &apos;CLIProxyAPI key: &apos; CLIPROXY_API_KEY
+printf &apos;\n&apos;
+curl -fsS \
+  -H &quot;Authorization: Bearer ${CLIPROXY_API_KEY}&quot; \
+  http://127.0.0.1:8317/v1/models
+unset CLIPROXY_API_KEY
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A JSON model list confirms that the service is reachable, the key matches, and the Codex login was loaded.&lt;/p&gt;
+&lt;h2&gt;Connect the GitHub Copilot App&lt;/h2&gt;
+&lt;p&gt;In the GitHub Copilot app:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Open &lt;strong&gt;Settings&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Select &lt;strong&gt;Model providers&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Choose &lt;strong&gt;Add provider&lt;/strong&gt;, then &lt;strong&gt;OpenAI&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Set the base URL to &lt;code&gt;http://127.0.0.1:8317/v1&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Paste the local key from &lt;code&gt;config.yaml&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Save the provider and select one of the Codex models it exposes.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Start with a disposable repository and a small test prompt. Confirm the diff and commands before trusting the setup with important work.&lt;/p&gt;
+&lt;h2&gt;Troubleshooting&lt;/h2&gt;
+&lt;p&gt;Check the service and recent logs with:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;systemctl --user status cliproxyapi.service
+journalctl --user -u cliproxyapi.service -n 100 --no-pager
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If the app cannot connect, verify that the base URL includes &lt;code&gt;/v1&lt;/code&gt;, the port is &lt;code&gt;8317&lt;/code&gt;, and the service is listening on &lt;code&gt;127.0.0.1&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For a &lt;code&gt;401&lt;/code&gt; response, make sure the key entered in the app exactly matches a value under &lt;code&gt;api-keys&lt;/code&gt; in &lt;code&gt;config.yaml&lt;/code&gt;. After changing the configuration, restart the service:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;systemctl --user restart cliproxyapi.service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If no Codex models appear, repeat the OAuth login and test &lt;code&gt;/v1/models&lt;/code&gt; from the terminal before changing more app settings.&lt;/p&gt;
+&lt;h2&gt;Faster GitHub Actions with Blacksmith&lt;/h2&gt;
+&lt;p&gt;The video also shows &lt;a href=&quot;https://link.christitus.com/blacksmith&quot;&gt;Blacksmith&lt;/a&gt;, the sponsor for this walkthrough. Replacing the standard GitHub-hosted runners and enabling Blacksmith&apos;s cache cut one WinOnOneShot workflow from roughly five minutes to about two minutes in my test.&lt;/p&gt;
+&lt;p&gt;That result is from one project, not a promise for every workflow, but it is worth testing if CI wait time is slowing down your development loop.&lt;/p&gt;
+&lt;h2&gt;Final Thoughts&lt;/h2&gt;
+&lt;p&gt;The GitHub Copilot app is useful once I stop treating it as Copilot. It gives me one dashboard for repository activity, issue triage, pull requests, and local projects across Linux, macOS, and Windows.&lt;/p&gt;
+&lt;p&gt;Routing its AI features through CLIProxyAPI lets me use the Codex subscription I already have, while the app remains valuable even without AI as a GitHub organization and notification tool. For developers managing dozens of repositories, that organization is the real feature.&lt;/p&gt;
+&lt;h2&gt;Sources&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.github.com/en/copilot/concepts/agents/github-copilot-app&quot;&gt;GitHub Copilot app overview&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.github.com/en/copilot/how-tos/github-copilot-app/use-byok-models&quot;&gt;GitHub Copilot app model providers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan&quot;&gt;OpenAI Codex with a ChatGPT plan&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/router-for-me/CLIProxyAPI&quot;&gt;CLIProxyAPI project&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://help.router-for.me/introduction/quick-start&quot;&gt;CLIProxyAPI Linux quick start&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Video Walkthrough&lt;/h2&gt;
+&lt;p&gt;The video shows my complete workflow, from replacing the built-in AI provider to triaging issues across roughly 100 repositories.&lt;/p&gt;
+&lt;div class=&quot;media-embed&quot;&gt;&lt;iframe src=&quot;https://www.youtube-nocookie.com/embed/sspesgDbWLc&quot; title=&quot;YouTube video player&quot; loading=&quot;lazy&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen&gt;&lt;/iframe&gt;&lt;/div&gt;
+&lt;p&gt;&lt;a href=&quot;https://youtu.be/sspesgDbWLc&quot;&gt;Watch the video directly on YouTube&lt;/a&gt; if the embed does not load.&lt;/p&gt;
+</description><pubDate>Mon, 17 Aug 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;GitHub Copilot is a terrible name for this app. Microsoft has put the Copilot name on everything, but this is much more useful as a &lt;strong&gt;GitHub desktop dashboard&lt;/strong&gt; for Linux, macOS, and Windows.&lt;/p&gt;
+&lt;p&gt;I use it to organize repositories, issues, pull requests, and notifications. I do not use the built-in Copilot subscription. Instead, I connect the app to my existing Codex subscription through &lt;a href=&quot;https://github.com/router-for-me/CLIProxyAPI&quot;&gt;CLIProxyAPI&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;The GitHub App I Actually Wanted&lt;/h2&gt;
+&lt;p&gt;The app&apos;s &lt;strong&gt;My work&lt;/strong&gt; view puts review requests, issues, pull requests, and repository activity in one place. That matters when your notification feed is constantly moving and older projects are easy to forget.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/2026/github/intro-myword.webp&quot; alt=&quot;GitHub Copilot app My work view with issues and pull requests from connected repositories&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;My normal workflow looks like this:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Open &lt;strong&gt;My work&lt;/strong&gt; and scan new activity across every connected repository.&lt;/li&gt;
+&lt;li&gt;Open an issue or pull request in the app to get the context.&lt;/li&gt;
+&lt;li&gt;Ask for a plan or initial scaffolding when an issue needs code.&lt;/li&gt;
+&lt;li&gt;Continue the detailed implementation in my preferred editor or terminal.&lt;/li&gt;
+&lt;li&gt;Review, close, or archive the item when the work is done.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;I do not want the app to replace my IDE. It is the front door to the work: a fast way to decide what needs attention before I move into Codex, HerdR, or another development environment.&lt;/p&gt;
+&lt;h2&gt;Prioritize Issues Across Every Repository&lt;/h2&gt;
+&lt;p&gt;The biggest win is triage. GitHub&apos;s normal notification stream tells you what happened, but it does not necessarily tell you what matters most.&lt;/p&gt;
+&lt;p&gt;I can ask the app to prioritize my outstanding issues and pull requests. If several users report the same WinUtil problem, that cluster should rank above a one-off request with little impact. A useful prompt is:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;Prioritize my outstanding issues and pull requests across all connected
+repositories. Group duplicate or closely related reports, rank them by user
+impact and urgency, and explain why each item deserves its position.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The result is a practical queue instead of an endless inbox.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/2026/github/top20.webp&quot; alt=&quot;GitHub Copilot ranking the top 20 outstanding issues across many repositories&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;AI can miss context, so I still review the source issue before acting. The ranking is a starting point, not an automatic decision-maker.&lt;/p&gt;
+&lt;h2&gt;Add and Synchronize Existing Repositories&lt;/h2&gt;
+&lt;p&gt;Adding a large collection of repositories one at a time is tedious. I pointed the app at my working directory and asked it to identify local GitHub projects that were not already configured.&lt;/p&gt;
+&lt;p&gt;Once the repositories are available, the app can help spot stale clones, dirty worktrees, and branches that need attention. That is useful when I commit on one machine and later discover that another workstation has not pulled the change.&lt;/p&gt;
+&lt;p&gt;Never ask an agent to discard or overwrite local changes automatically. Have it report the repository state first, then review each proposed pull, commit, or cleanup action.&lt;/p&gt;
+&lt;h2&gt;Replace the Copilot Provider with Codex&lt;/h2&gt;
+&lt;p&gt;The app supports additional model providers. I use that capability to avoid buying another AI subscription for another application.&lt;/p&gt;
+&lt;p&gt;The path is:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;GitHub Copilot app -&amp;gt; CLIProxyAPI on localhost -&amp;gt; OpenAI Codex
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;CLIProxyAPI is a third-party open-source project that signs in to supported AI services and exposes an OpenAI-compatible local endpoint. If your ChatGPT plan includes Codex, it can route the app through that existing access instead of a separately billed OpenAI Platform API key.&lt;/p&gt;
+&lt;p&gt;This is not an official GitHub or OpenAI integration. Review the project before installing it, keep it updated, and expect your normal subscription limits and terms to apply.&lt;/p&gt;
+&lt;h2&gt;Install CLIProxyAPI on Linux&lt;/h2&gt;
+&lt;p&gt;The CLIProxyAPI documentation recommends a community-maintained Linux installer. Download it first so you can inspect it before running it:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;installer=&quot;$(mktemp)&quot;
+curl -fsSL \
+  https://raw.githubusercontent.com/router-for-me/cliproxyapi-installer/refs/heads/master/cliproxyapi-installer \
+  -o &quot;$installer&quot; || { rm -f &quot;$installer&quot;; exit 1; }
+
+less &quot;$installer&quot;
+bash &quot;$installer&quot;
+rm -f &quot;$installer&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The installer normally places the binary and configuration under &lt;code&gt;~/cliproxyapi/&lt;/code&gt;. It also creates a &lt;code&gt;cliproxyapi.service&lt;/code&gt; user unit and generates a local API key.&lt;/p&gt;
+&lt;p&gt;Open &lt;code&gt;~/cliproxyapi/config.yaml&lt;/code&gt; and verify that the service is bound only to localhost:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-yaml&quot;&gt;host: &quot;127.0.0.1&quot;
+port: 8317
+auth-dir: &quot;~/.cli-proxy-api&quot;
+
+api-keys:
+  - &quot;sk-replace-this-with-a-long-random-local-key&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Edit the existing values instead of replacing the entire configuration. If the installer already generated a strong local key, keep it. Protect the configuration with:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;install -d -m 700 &quot;$HOME/.cli-proxy-api&quot;
+chmod 700 &quot;$HOME/cliproxyapi&quot; &quot;$HOME/.cli-proxy-api&quot;
+chmod 600 &quot;$HOME/cliproxyapi/config.yaml&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Sign In to Codex and Start the Service&lt;/h2&gt;
+&lt;p&gt;Run the one-time OAuth login as your normal desktop user:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;cd &quot;$HOME/cliproxyapi&quot;
+./cli-proxy-api --codex-login
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For a headless machine, use the device-code flow instead of the browser callback:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;./cli-proxy-api --codex-device-login
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After signing in, restrict the saved OAuth credentials to your user:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;find &quot;$HOME/.cli-proxy-api&quot; -type d -exec chmod 700 {} +
+find &quot;$HOME/.cli-proxy-api&quot; -type f -exec chmod 600 {} +
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then enable the user service:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;systemctl --user daemon-reload
+systemctl --user enable --now cliproxyapi.service
+systemctl --user status cliproxyapi.service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A desktop user service starts when you log in, which is normally all this setup needs.&lt;/p&gt;
+&lt;h2&gt;Test the Local Endpoint&lt;/h2&gt;
+&lt;p&gt;Before changing the GitHub app, confirm that the proxy is running and that its local key works:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;read -rsp &apos;CLIProxyAPI key: &apos; CLIPROXY_API_KEY
+printf &apos;\n&apos;
+curl -fsS \
+  -H &quot;Authorization: Bearer ${CLIPROXY_API_KEY}&quot; \
+  http://127.0.0.1:8317/v1/models
+unset CLIPROXY_API_KEY
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A JSON model list confirms that the service is reachable, the key matches, and the Codex login was loaded.&lt;/p&gt;
+&lt;h2&gt;Connect the GitHub Copilot App&lt;/h2&gt;
+&lt;p&gt;In the GitHub Copilot app:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Open &lt;strong&gt;Settings&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Select &lt;strong&gt;Model providers&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Choose &lt;strong&gt;Add provider&lt;/strong&gt;, then &lt;strong&gt;OpenAI&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Set the base URL to &lt;code&gt;http://127.0.0.1:8317/v1&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Paste the local key from &lt;code&gt;config.yaml&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Save the provider and select one of the Codex models it exposes.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Start with a disposable repository and a small test prompt. Confirm the diff and commands before trusting the setup with important work.&lt;/p&gt;
+&lt;h2&gt;Troubleshooting&lt;/h2&gt;
+&lt;p&gt;Check the service and recent logs with:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;systemctl --user status cliproxyapi.service
+journalctl --user -u cliproxyapi.service -n 100 --no-pager
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If the app cannot connect, verify that the base URL includes &lt;code&gt;/v1&lt;/code&gt;, the port is &lt;code&gt;8317&lt;/code&gt;, and the service is listening on &lt;code&gt;127.0.0.1&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For a &lt;code&gt;401&lt;/code&gt; response, make sure the key entered in the app exactly matches a value under &lt;code&gt;api-keys&lt;/code&gt; in &lt;code&gt;config.yaml&lt;/code&gt;. After changing the configuration, restart the service:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;systemctl --user restart cliproxyapi.service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If no Codex models appear, repeat the OAuth login and test &lt;code&gt;/v1/models&lt;/code&gt; from the terminal before changing more app settings.&lt;/p&gt;
+&lt;h2&gt;Faster GitHub Actions with Blacksmith&lt;/h2&gt;
+&lt;p&gt;The video also shows &lt;a href=&quot;https://link.christitus.com/blacksmith&quot;&gt;Blacksmith&lt;/a&gt;, the sponsor for this walkthrough. Replacing the standard GitHub-hosted runners and enabling Blacksmith&apos;s cache cut one WinOnOneShot workflow from roughly five minutes to about two minutes in my test.&lt;/p&gt;
+&lt;p&gt;That result is from one project, not a promise for every workflow, but it is worth testing if CI wait time is slowing down your development loop.&lt;/p&gt;
+&lt;h2&gt;Final Thoughts&lt;/h2&gt;
+&lt;p&gt;The GitHub Copilot app is useful once I stop treating it as Copilot. It gives me one dashboard for repository activity, issue triage, pull requests, and local projects across Linux, macOS, and Windows.&lt;/p&gt;
+&lt;p&gt;Routing its AI features through CLIProxyAPI lets me use the Codex subscription I already have, while the app remains valuable even without AI as a GitHub organization and notification tool. For developers managing dozens of repositories, that organization is the real feature.&lt;/p&gt;
+&lt;h2&gt;Sources&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.github.com/en/copilot/concepts/agents/github-copilot-app&quot;&gt;GitHub Copilot app overview&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.github.com/en/copilot/how-tos/github-copilot-app/use-byok-models&quot;&gt;GitHub Copilot app model providers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan&quot;&gt;OpenAI Codex with a ChatGPT plan&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/router-for-me/CLIProxyAPI&quot;&gt;CLIProxyAPI project&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://help.router-for.me/introduction/quick-start&quot;&gt;CLIProxyAPI Linux quick start&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Video Walkthrough&lt;/h2&gt;
+&lt;p&gt;The video shows my complete workflow, from replacing the built-in AI provider to triaging issues across roughly 100 repositories.&lt;/p&gt;
+&lt;div class=&quot;media-embed&quot;&gt;&lt;iframe src=&quot;https://www.youtube-nocookie.com/embed/sspesgDbWLc&quot; title=&quot;YouTube video player&quot; loading=&quot;lazy&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen&gt;&lt;/iframe&gt;&lt;/div&gt;
+&lt;p&gt;&lt;a href=&quot;https://youtu.be/sspesgDbWLc&quot;&gt;Watch the video directly on YouTube&lt;/a&gt; if the embed does not load.&lt;/p&gt;
+</content:encoded></item><item><title>I Rebuilt My Website in Astro - Was It Worth It?</title><link>https://christitus.com/i-rebuilt-my-website-in-astro-was-it-worth-it/</link><guid isPermaLink="true">https://christitus.com/i-rebuilt-my-website-in-astro-was-it-worth-it/</guid><description>&lt;p&gt;Four years ago, I built this website with Hugo. In August 2026, I deleted the
 Hugo build, replaced it with Astro, and moved the entire production site without
 changing the URLs people already use.&lt;/p&gt;
 &lt;p&gt;Hugo was not broken. That is what made this migration interesting. The site had
